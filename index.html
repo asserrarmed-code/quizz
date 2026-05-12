@@ -88,6 +88,13 @@
             background: rgba(0, 0, 0, 0.2);
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
             margin-bottom: 15px;
+            overflow: hidden; /* لضمان بقاء الصورة داخل الإطار الدائري */
+        }
+
+        .logo-frame img {
+            width: 80%; /* يمكنك تعديل النسبة لتناسب حجم شعارك */
+            height: auto;
+            object-fit: contain;
         }
 
         h1 {
@@ -103,7 +110,6 @@
             text-align: center;
         }
 
-        /* تنسيق القائمة المنسدلة الجديد */
         .select-style {
             width: 100%;
             padding: 12px;
@@ -169,7 +175,8 @@
 
     <div class="center-logo-area">
         <div class="logo-frame">
-            <i class="fas fa-trophy" style="font-size: 70px; color: var(--accent-color);"></i>
+            <!-- تم وضع مسار الصورة logo.png هنا -->
+            <img src="logo.png" alt="لوغو المسابقة">
         </div>
         <h1>ميدان المعرفة الشامل</h1>
     </div>
@@ -177,7 +184,6 @@
     <div class="interaction-box">
         <p style="color: white; margin-bottom: 12px;">اختر عدد الفرق المشاركة:</p>
         
-        <!-- القائمة المنسدلة لاختيار الفرق -->
         <select class="select-style" onchange="setup(this.value)">
             <option value="" disabled selected>-- اختر من القائمة --</option>
             <option value="2">فريقان (2)</option>
@@ -191,7 +197,6 @@
         <button id="goBtn" class="start-action">دخول التحدي <i class="fas fa-rocket"></i></button>
     </div>
 
-    <!-- التوقيع الخاص بك -->
     <div class="master-signature">
         إعداد وتصميم الأستاذ محمد أسرار <br>
         مدرسة ميمونة أم المؤمنين - مديرية مراكش
