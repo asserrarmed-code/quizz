@@ -1,0 +1,40 @@
+<style>
+    /* تحسين حاوية الخريطة لتناسب شكل خريطة المغرب الطولي */
+    .map-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px; /* تقليل العرض ليتناسب مع الطول */
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 10px;
+        border: 2px solid var(--accent-color);
+        display: flex;
+        justify-content: center;
+    }
+
+    .morocco-map {
+        width: auto;
+        height: 600px; /* زيادة الارتفاع لإظهار الخريطة من طنجة للكويرة بوضوح */
+        filter: drop-shadow(0 0 10px var(--accent-color));
+    }
+
+    /* توزيع النقاط على طول الخريطة */
+    .point-tangier { top: 5%; left: 65%; }
+    .point-marrakesh { top: 35%; left: 50%; }
+    .point-laayoune { top: 65%; left: 35%; }
+    .point-dakhla { top: 80%; left: 25%; }
+    .point-lagouira { top: 92%; left: 20%; }
+</style>
+
+<div class="map-container">
+    <!-- تأكد من استخدام صورة رسمية كاملة باسم morocco_full.png -->
+    <img src="morocco_full.png" class="morocco-map" alt="خريطة المملكة المغربية كاملة">
+    
+    <!-- نقاط التفاعل موزعة من الشمال إلى الجنوب -->
+    <div class="map-point point-tangier" onclick="showQuestion('tangier')">1</div>
+    <div class="map-point point-marrakesh" onclick="showQuestion('marrakesh')">2</div>
+    <div class="map-point point-laayoune" onclick="showQuestion('laayoune')">3</div>
+    <div class="map-point point-dakhla" onclick="showQuestion('dakhla')">4</div>
+    <div class="map-point point-lagouira" onclick="showQuestion('lagouira')">5</div>
+</div>
