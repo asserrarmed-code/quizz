@@ -32,6 +32,8 @@
         /* الحاوية الطولية لإصلاح مشكلة النزول */
 /* الحاوية الطولية - نسخة الإصلاح الفوري */
 .map-container {
+    <div id="flyer" class="flyer-dot"></div>
+    
     position: relative;
     width: 92%;
     max-width: 450px;
@@ -76,38 +78,63 @@
         .map-point:active { transform: scale(0.8); }
 
         /* الإحداثيات الدقيقة للخريطة الطولية (Portrait) */
-        .p1 { top: 22%; left: 63%; }  /* طنجة */
-        .p2 { top: 28%; left: 77%; }  /* وجدة */
-        .p3 { top: 31%; left: 66%; }  /* فاس */
-        .p4 { top: 30%; left: 53%; }  /* الرباط */
-        .p5 { top: 41%; left: 58%; }  /* مراكش */
-        .p6 { top: 46%; left: 71%; }  /* تافيلالت */
-        .p7 { top: 51%; left: 49%; }  /* أكادير */
-        .p8 { top: 59%; left: 41%; }  /* كلميم */
-        .p9 { top: 64%; left: 35%; }  /* العيون */
-        .p10 { top: 68%; left: 31%; } /* بوجدور */
-        .p11 { top: 72%; left: 27%; } /* الداخلة */
-        .p12 { top: 75%; left: 23%; } /* الكويرة */
+        /* الإحداثيات النهائية لتطابق أيقونات الخريطة الطولية */
+.p1 { top: 22%; left: 66%; }  
+.p2 { top: 28%; left: 80%; }  
+.p3 { top: 31%; left: 69%; }  
+.p4 { top: 30%; left: 56%; }  
+.p5 { top: 41%; left: 61%; }  
+.p6 { top: 46%; left: 74%; }  
+.p7 { top: 51%; left: 52%; }  
+.p8 { top: 59%; left: 44%; }  
+.p9 { top: 64%; left: 38%; }  
+.p10 { top: 68%; left: 34%; } 
+.p11 { top: 72%; left: 30%; } 
+.p12 { top: 75%; left: 26%; } 
+
+/* أنيميشن الشعاع الطائر */
+.flyer-dot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #fff;
+    z-index: 100;
+    display: none;
+    transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
         /* نافذة السؤال */
-        .question-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+        let lastPoint = null;
 
-        .question-card {
-            background: #2c3e50;
-            padding: 25px;
-            border-radius: 20px;
-            border: 3px solid var(--accent-color);
-            width: 85%;
-            text-align: center;
-        }
+function showQuestion(num, element) {
+    const flyer = document.getElementById('flyer');
+    const overlay = document.getElementById('qOverlay');
+    
+    // إذا كانت هذه ليست المرة الأولى، اجعل الشعاع يطير
+    if (lastPoint) {
+        flyer.style.display = 'block';
+        flyer.style.top = lastPoint.style.top;
+        flyer.style.left = lastPoint.style.left;
+        
+        setTimeout(() => {
+            flyer.style.top = element.style.top;
+            flyer.style.left = element.style.left;
+        }, 10);
+    }
+    
+    lastPoint = element; // حفظ النقطة الحالية للمرة القادمة
+
+    // إظهار نافذة السؤال بعد انتهاء الطيران (700ms)
+    setTimeout(() => {
+        flyer.style.display = 'none';
+        document.getElementById('qTitle').innerText = `الكنز رقم ${num}`;
+        document.getElementById('qContent').innerText = "جاري جلب السؤال من بنك أسئلة الأستاذ محمد أسرار...";
+        overlay.style.display = 'flex';
+    }, 700);
+}
+
     </style>
 </head>
 <body>
