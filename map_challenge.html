@@ -3,52 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ميدان المعرفة - خريطة الكنوز</title>
+    <title>خريطة الكنوز - ميدان المعرفة الشامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --accent-color: #ffcc00; --dark-bg: #0d1b2a; }
-        body { background-color: var(--dark-bg); font-family: 'Cairo', sans-serif; margin: 0; color: white; }
+        :root { --accent-color: #ffcc00; }
+        body { background-color: #0d1b2a; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
 
-        /* لوحة تحكم الفرق (أعلى الخريطة) */
-        .scoreboard {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            flex-wrap: wrap;
-            background: rgba(255,255,255,0.05);
-        }
-        .team-card {
-            background: #1b263b;
-            border: 2px solid var(--accent-color);
-            padding: 8px;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 90px;
-        }
-        .score-controls { display: flex; justify-content: space-around; margin-top: 5px; }
-        .btn-score { background: none; border: 1px solid white; color: white; cursor: pointer; border-radius: 4px; padding: 2px 8px; }
-        .btn-score:hover { background: var(--accent-color); color: black; }
-
-        /* حاوية الخريطة المرنة */
+        /* الحاوية المرنة للحاسوب والهاتف */
         .map-container {
             position: relative;
             width: 95%;
-            max-width: 480px;
-            aspect-ratio: 9 / 16;
-            margin: 10px auto;
+            max-width: 450px; /* يحافظ على تناسقها في الحاسوب */
+            aspect-ratio: 9 / 16; /* يثبت نسبة أبعاد الصورة */
+            margin: 20px auto;
             border: 4px solid var(--accent-color);
-            border-radius: 20px;
+            border-radius: 25px;
             background: #fdf5e6;
             overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-        .morocco-map { width: 100%; height: 100%; display: block; object-fit: cover; }
 
-        /* إحداثيات مصححة بناءً على 1000046210.jpg (الخط الساحلي) */
+        .morocco-map {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* تنسيق النقاط - مرن بالنسبة المئوية */
         .map-point {
             position: absolute;
-            width: 7.5%;
+            width: 7%; /* حجم النقطة يتغير آلياً مع حجم الخريطة */
             aspect-ratio: 1/1;
             background: var(--accent-color);
             color: #000;
@@ -57,109 +42,114 @@
             justify-content: center;
             align-items: center;
             font-weight: 900;
-            font-size: clamp(10px, 3.5vw, 16px);
+            font-size: clamp(10px, 3vw, 16px); /* حجم خط مرن */
             border: 2px solid #fff;
             cursor: pointer;
             z-index: 10;
+            transform: translate(-50%, -50%); /* يضمن تمركز النقطة فوق الزخرفة */
+            transition: transform 0.2s;
+        }
+
+        .map-point:hover { transform: translate(-50%, -50%) scale(1.2); }
+
+        /* الإحداثيات النهائية الدقيقة (بناءً على الصورة 1000046152.jpg) */
+        .p1 { top: 22.5%; left: 68.5%; }  
+        .p2 { top: 28.5%; left: 81.5%; }  
+        .p3 { top: 31.8%; left: 71.5%; }  
+        .p4 { top: 30.5%; left: 58.5%; }  
+        .p5 { top: 41.5%; left: 63.5%; }  
+        .p6 { top: 46.8%; left: 76.5%; }  
+        .p7 { top: 51.5%; left: 54.5%; }  
+        .p8 { top: 59.5%; left: 46.5%; }  
+        .p9 { top: 64.5%; left: 40.5%; }  
+        .p10 { top: 68.8%; left: 36.5%; } 
+        .p11 { top: 72.8%; left: 32.5%; } 
+        .p12 { top: 75.8%; left: 28.5%; } 
+
+        /* أنيميشن الشعاع الطائر */
+        .flyer-dot {
+            position: absolute;
+            width: 6%;
+            aspect-ratio: 1/1;
+            background: gold;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fff;
+            z-index: 100;
+            display: none;
+            pointer-events: none;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform: translate(-50%, -50%);
         }
 
-        /* تعديلات دقيقة جداً للأرقام لتقع فوق الأيقونات الذهبية تماماً */
-        .p1 { top: 12.5%; left: 66%; }  /* طنجة */
-        .p2 { top: 28.5%; left: 81%; }  /* وجدة */
-        .p3 { top: 32.5%; left: 71%; }  /* فاس */
-        .p4 { top: 33.5%; left: 56.5%; } /* الرباط */
-        .p5 { top: 44.5%; left: 61.5%; } /* مراكش */
-        .p6 { top: 48.5%; left: 74%; }  /* تافيلالت */
-        .p7 { top: 54.5%; left: 53.5%; } /* أكادير */
-        .p8 { top: 59.2%; left: 45.5%; } /* كلميم */
-        .p9 { top: 64.5%; left: 39%; }   /* العيون */
-        .p10 { top: 69.8%; left: 35.5%; } /* بوجدور */
-        .p11 { top: 73.8%; left: 31%; }   /* الداخلة */
-        .p12 { top: 77.5%; left: 26.5%; } /* الكويرة */
-
-        .flyer-dot {
-            position: absolute; width: 6%; aspect-ratio: 1/1; background: gold;
-            border-radius: 50%; box-shadow: 0 0 20px #fff; z-index: 100;
-            display: none; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translate(-50%, -50%);
+        .master-signature {
+            text-align: center;
+            color: white;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="scoreboard" id="scoreboard">
-    <!-- سيتم توليد الفرق هنا برمجياً -->
-</div>
-
 <div class="map-container">
-    <img src="watermarked_img_9363607304584003144.png" class="morocco-map">
+    <!-- صورة الخريطة -->
+    <img src="map.png" class="morocco-map">
+    
+    <!-- عنصر الشعاع الطائر -->
     <div id="flyer" class="flyer-dot"></div>
     
     <!-- نقاط الكنوز -->
-    <div class="map-point p1" onclick="handleStep(1, this)">1</div>
-    <div class="map-point p2" onclick="handleStep(2, this)">2</div>
-    <div class="map-point p3" onclick="handleStep(3, this)">3</div>
-    <div class="map-point p4" onclick="handleStep(4, this)">4</div>
-    <div class="map-point p5" onclick="handleStep(5, this)">5</div>
-    <div class="map-point p6" onclick="handleStep(6, this)">6</div>
-    <div class="map-point p7" onclick="handleStep(7, this)">7</div>
-    <div class="map-point p8" onclick="handleStep(8, this)">8</div>
-    <div class="map-point p9" onclick="handleStep(9, this)">9</div>
-    <div class="map-point p10" onclick="handleStep(10, this)">10</div>
-    <div class="map-point p11" onclick="handleStep(11, this)">11</div>
-    <div class="map-point p12" onclick="handleStep(12, this)">12</div>
+    <div class="map-point p1" onclick="showQuestion(1, this)">1</div>
+    <div class="map-point p2" onclick="showQuestion(2, this)">2</div>
+    <div class="map-point p3" onclick="showQuestion(3, this)">3</div>
+    <div class="map-point p4" onclick="showQuestion(4, this)">4</div>
+    <div class="map-point p5" onclick="showQuestion(5, this)">5</div>
+    <div class="map-point p6" onclick="showQuestion(6, this)">6</div>
+    <div class="map-point p7" onclick="showQuestion(7, this)">7</div>
+    <div class="map-point p8" onclick="showQuestion(8, this)">8</div>
+    <div class="map-point p9" onclick="showQuestion(9, this)">9</div>
+    <div class="map-point p10" onclick="showQuestion(10, this)">10</div>
+    <div class="map-point p11" onclick="showQuestion(11, this)">11</div>
+    <div class="map-point p12" onclick="showQuestion(12, this)">12</div>
+</div>
+
+<div class="master-signature">
+    إعداد وتصميم الأستاذ محمد أسرار - مدرسة ميمونة أم المؤمنين
 </div>
 
 <script>
-    // نظام إدارة الفرق واللوحة
-    let teams = JSON.parse(localStorage.getItem('midan_teams')) || [
-        {name: "فريق 1", score: 0}, {name: "فريق 2", score: 0}
-    ];
-
-    function renderScoreboard() {
-        const board = document.getElementById('scoreboard');
-        board.innerHTML = '';
-        teams.forEach((team, index) => {
-            board.innerHTML += `
-                <div class="team-card">
-                    <div style="font-size:0.8rem">${team.name}</div>
-                    <div id="score-${index}" style="font-weight:900; color:var(--accent-color)">${team.score}</div>
-                    <div class="score-controls">
-                        <button class="btn-score" onclick="updateScore(${index}, 5)">+</button>
-                        <button class="btn-score" onclick="updateScore(${index}, -5)">-</button>
-                    </div>
-                </div>`;
-        });
-    }
-
-    function updateScore(index, val) {
-        teams[index].score += val;
-        document.getElementById(`score-${index}`).innerText = teams[index].score;
-        localStorage.setItem('midan_teams', JSON.stringify(teams));
-    }
-
-    // نظام الطيران والأسئلة
     let lastPoint = null;
-    function handleStep(num, element) {
+
+    function showQuestion(num, element) {
         const flyer = document.getElementById('flyer');
+        
+        // جلب الإحداثيات بالنسبة المئوية
+        const targetTop = element.style.top || window.getComputedStyle(element).top;
+        const targetLeft = element.style.left || window.getComputedStyle(element).left;
+
         if (lastPoint) {
+            // إعداد نقطة الانطلاق
             flyer.style.display = 'block';
             flyer.style.top = lastPoint.style.top || window.getComputedStyle(lastPoint).top;
             flyer.style.left = lastPoint.style.left || window.getComputedStyle(lastPoint).left;
+            
+            // بدء الطيران
             setTimeout(() => {
-                flyer.style.top = element.style.top || window.getComputedStyle(element).top;
-                flyer.style.left = element.style.left || window.getComputedStyle(element).left;
+                flyer.style.top = targetTop;
+                flyer.style.left = targetLeft;
             }, 50);
         }
+
         lastPoint = element;
-        setTimeout(() => { 
-            flyer.style.display = 'none'; 
-            alert("سؤال الكنز " + num); // استبدلها بنافذة السؤال الخاصة بك
+
+        // فتح السؤال بعد الوصول
+        setTimeout(() => {
+            flyer.style.display = 'none';
+            console.log("فتح كنز رقم: " + num);
+            // أضف هنا الكود الذي يظهر نافذة السؤال
         }, 800);
     }
-
-    renderScoreboard();
 </script>
+
 </body>
 </html>
