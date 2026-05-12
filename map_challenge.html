@@ -3,81 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خريطة الكنوز - ميدان المعرفة الشامل</title>
+    <title>خريطة الكنوز - ميدان المعرفة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* شريط عرض الفرق */
+        /* شريط الفرق */
         #teams-header {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             width: 100%;
-            margin: 20px 0;
+            margin: 15px 0;
             flex-wrap: wrap;
         }
 
         .team-score-box {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--accent-color);
-            padding: 8px 15px;
-            border-radius: 15px;
+            padding: 5px 12px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 100px;
+            min-width: 80px;
         }
 
-        .team-name { color: var(--white); font-weight: bold; }
-        .team-points { color: var(--accent-color); font-weight: 900; }
-.map-container {
-    position: relative;
-    width: 95%;
-    max-width: 600px; /* لضمان الوضوح على شاشات الهاتف */
-    margin: 20px auto;
-    border: 4px solid var(--accent-color);
-    border-radius: 15px;
-    overflow: hidden; /* يمنع خروج النقاط عن الإطار */
-    line-height: 0; /* يزيل الفراغ أسفل الصورة */
-}
+        /* الحاوية الطولية لإصلاح مشكلة النزول */
+        .map-container {
+            position: relative; /* ضروري لربط الأرقام بالصورة */
+            width: 90%;
+            max-width: 450px; /* تناسب شاشات الهواتف */
+            margin: 0 auto;
+            border: 3px solid var(--accent-color);
+            border-radius: 20px;
+            overflow: hidden;
+            background: #fdf5e6;
+            line-height: 0;
+        }
 
-.morocco-map {
-    width: 100%;
-    height: auto;
-    display: block;
-}
+        .morocco-map {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-        
-
-        /* تصميم نقاط الكنوز (الأرقام) */
+        /* تنسيق النقاط الـ 12 */
         .map-point {
-    width: 25px;   /* تصغير الحجم */
-    height: 25px;
-    font-size: 0.75rem;
-    background: var(--accent-color);
-    border: 1px solid #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-color);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-weight: 900;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,0,0,0.4);
+            z-index: 10;
+            transition: transform 0.2s;
+        }
 
-        .map-point:hover { transform: scale(1.3) rotate(10deg); background: #fff; color: var(--accent-color); }
+        .map-point:active { transform: scale(0.8); }
 
-        /* توزيع النقاط الـ 12 على الخريطة الكاملة بدقة */
-        /* توزيع النقاط الـ 12 بدقة على الخريطة الوطنية */
-/* توزيع النقاط الـ 12 بدقة على الخريطة الطولية الجديدة */
-.p1 { top: 22%; left: 63%; }  /* طنجة */
-.p2 { top: 28%; left: 77%; }  /* وجدة */
-.p3 { top: 31%; left: 66%; }  /* فاس */
-.p4 { top: 30%; left: 53%; }  /* الرباط */
-.p5 { top: 41%; left: 58%; }  /* مراكش */
-.p6 { top: 46%; left: 71%; }  /* الراشيدية */
-.p7 { top: 51%; left: 49%; }  /* أكادير */
-.p8 { top: 59%; left: 41%; }  /* العيون */
-.p9 { top: 64%; left: 35%; }  /* بوجدور */
-.p10 { top: 68%; left: 31%; } /* الداخلة */
-.p11 { top: 72%; left: 27%; } /* أوسرد */
-.p12 { top: 75%; left: 23%; } /* الكويرة */
-
+        /* الإحداثيات الدقيقة للخريطة الطولية (Portrait) */
+        .p1 { top: 22%; left: 63%; }  /* طنجة */
+        .p2 { top: 28%; left: 77%; }  /* وجدة */
+        .p3 { top: 31%; left: 66%; }  /* فاس */
+        .p4 { top: 30%; left: 53%; }  /* الرباط */
+        .p5 { top: 41%; left: 58%; }  /* مراكش */
+        .p6 { top: 46%; left: 71%; }  /* تافيلالت */
+        .p7 { top: 51%; left: 49%; }  /* أكادير */
+        .p8 { top: 59%; left: 41%; }  /* كلميم */
+        .p9 { top: 64%; left: 35%; }  /* العيون */
+        .p10 { top: 68%; left: 31%; } /* بوجدور */
+        .p11 { top: 72%; left: 27%; } /* الداخلة */
+        .p12 { top: 75%; left: 23%; } /* الكويرة */
 
         /* نافذة السؤال */
         .question-overlay {
@@ -87,18 +92,16 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
+            z-index: 1000;
         }
 
         .question-card {
             background: #2c3e50;
-            padding: 40px;
-            border-radius: 30px;
-            border: 4px solid var(--accent-color);
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid var(--accent-color);
             width: 85%;
-            max-width: 600px;
             text-align: center;
-            box-shadow: 0 0 50px var(--accent-color);
         }
     </style>
 </head>
@@ -107,17 +110,16 @@
 <div class="app-container">
     <div class="top-nav">
         <div class="nav-icon" onclick="location.href='modes.html'"><i class="fas fa-arrow-right"></i></div>
-        <h2 style="color: var(--accent-color);">خريطة الكنوز الوطنية</h2>
+        <h2 style="color: var(--accent-color); font-size: 1.2rem;">خريطة الكنوز الوطنية</h2>
         <div class="nav-icon" onclick="location.href='index.html'"><i class="fas fa-home"></i></div>
     </div>
 
     <div id="teams-header"></div>
 
     <div class="map-container">
-        <!-- استخدام الصورة التي تعبر عن هويتنا الوطنية كاملة -->
-        <img src="map.png" class="morocco-map" alt="خريطة المغرب كاملة">
+        <!-- تأكد من تسمية الصورة في مجلدك بهذا الاسم بالضبط -->
+        <img src="watermarked_img_9363607304584003144.png" class="morocco-map" alt="خريطة المغرب كاملة">
         
-        <!-- توزيع الكنوز الـ 12 -->
         <div class="map-point p1" onclick="showQuestion(1)">1</div>
         <div class="map-point p2" onclick="showQuestion(2)">2</div>
         <div class="map-point p3" onclick="showQuestion(3)">3</div>
@@ -134,9 +136,9 @@
 
     <div id="qOverlay" class="question-overlay">
         <div class="question-card">
-            <h3 id="qTitle" style="color: var(--accent-color); margin-bottom: 20px; font-size: 1.8rem;"></h3>
-            <div id="qContent" style="color: white; font-size: 1.4rem; margin-bottom: 30px; line-height: 1.6;"></div>
-            <button onclick="closeQuestion()" class="start-action" style="width:100%">تأكيد الإجابة</button>
+            <h3 id="qTitle" style="color: var(--accent-color); margin-bottom: 15px;"></h3>
+            <div id="qContent" style="color: white; font-size: 1.1rem; margin-bottom: 20px;"></div>
+            <button onclick="closeQuestion()" class="start-action" style="width:100%">إغلاق</button>
         </div>
     </div>
 
@@ -154,7 +156,7 @@
                 header.innerHTML += `
                     <div class="team-score-box">
                         <span class="team-name">${team.name}</span>
-                        <span class="team-points" id="score_${team.id}">${team.score} ن</span>
+                        <span class="team-points">${team.score} ن</span>
                     </div>`;
             });
         }
@@ -164,12 +166,8 @@
         const overlay = document.getElementById('qOverlay');
         const content = document.getElementById('qContent');
         const title = document.getElementById('qTitle');
-
         title.innerText = `الكنز رقم ${num}`;
-        
-        // هنا سنربط الأسئلة لاحقاً بملف JSON الـ 220 سؤالاً
         content.innerText = "السؤال قادم من بنك الأسئلة الخاص بالأستاذ محمد أسرار...";
-        
         overlay.style.display = 'flex';
     }
 
