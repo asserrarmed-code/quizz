@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار نمط التحدي - ميدان المعرفة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> <!-- نستخدم نفس ملف التنسيق السابق -->
+    <style>
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-10px);
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .mode-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .mode-card h3 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mode-card p {
+            color: var(--text-faded);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* لمسة جمالية للبطاقة الذهبية */
+        .mode-card.special {
+            border-style: double;
+            border-width: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="top-nav">
+        <div class="nav-icon" onclick="history.back()"><i class="fas fa-arrow-right"></i></div>
+        <h2 style="color: var(--accent-color);">اختر نمط التحدي</h2>
+        <div class="nav-icon"><i class="fas fa-home"></i></div>
+    </div>
+
+    <div class="modes-grid">
+        <!-- نمط خريطة الكنوز -->
+        <div class="mode-card" onclick="startMode('map')">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>خريطة الكنوز</h3>
+            <p>اربط المعرفة بالجغرافيا والتاريخ في رحلة عبر الأمكنة.</p>
+        </div>
+
+        <!-- نمط الصناديق المغلقة -->
+        <div class="mode-card" onclick="startMode('boxes')">
+            <i class="fas fa-box-open"></i>
+            <h3>الصناديق المغلقة</h3>
+            <p>حل لغز اللغة لتفتح صندوق التربية الإسلامية.</p>
+        </div>
+
+        <!-- نمط البطاقة الذهبية -->
+        <div class="mode-card special" onclick="startMode('gold')">
+            <i class="fas fa-award"></i>
+            <h3>البطاقة الذهبية</h3>
+            <p>سؤال ذكي يدمج مادتين بنقاط مضاعفة للمتفوقين.</p>
+        </div>
+
+        <!-- نمط المناظرة السريعة -->
+        <div class="mode-card" onclick="startMode('debate')">
+            <i class="fas fa-comments"></i>
+            <h3>المناظرة السريعة</h3>
+            <p>تحدي الفصاحة والإقناع في دقيقة واحدة تحت ضغط الوقت.</p>
+        </div>
+    </div>
+
+    <div class="master-signature">
+        إعداد وتصميم الأستاذ محمد أسرار <br>
+        مدرسة ميمونة أم المؤمنين - مديرية مراكش
+    </div>
+</div>
+
+<script>
+    function startMode(mode) {
+        console.log("انطلاق النمط: " + mode);
+        // هنا يتم الانتقال لصفحة الأسئلة الخاصة بكل نمط
+        // window.location.href = mode + ".html";
+    }
+</script>
+
+</body>
+</html>
