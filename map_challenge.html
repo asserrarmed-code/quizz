@@ -30,23 +30,28 @@
         }
 
         /* الحاوية الطولية لإصلاح مشكلة النزول */
-        .map-container {
-            position: relative; /* ضروري لربط الأرقام بالصورة */
-            width: 90%;
-            max-width: 450px; /* تناسب شاشات الهواتف */
-            margin: 0 auto;
-            border: 3px solid var(--accent-color);
-            border-radius: 20px;
-            overflow: hidden;
-            background: #fdf5e6;
-            line-height: 0;
-        }
+/* الحاوية الطولية - نسخة الإصلاح الفوري */
+.map-container {
+    position: relative;
+    width: 92%;
+    max-width: 450px;
+    min-height: 600px; /* هذا السطر يمنع الانكماش الذي ظهر في الصورة */
+    margin: 10px auto;
+    border: 3px solid var(--accent-color);
+    border-radius: 20px;
+    background: #fdf5e6;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
 
-        .morocco-map {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+.morocco-map {
+    width: 100%;
+    height: auto;
+    min-height: 600px; /* لضمان تمدد الصورة طولياً */
+    display: block;
+    object-fit: cover;
+}
+
 
         /* تنسيق النقاط الـ 12 */
         .map-point {
