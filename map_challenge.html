@@ -31,27 +31,24 @@
 
         .team-name { color: var(--white); font-weight: bold; }
         .team-points { color: var(--accent-color); font-weight: 900; }
+.map-container {
+    position: relative;
+    width: 95%;
+    max-width: 600px; /* لضمان الوضوح على شاشات الهاتف */
+    margin: 20px auto;
+    border: 4px solid var(--accent-color);
+    border-radius: 15px;
+    overflow: hidden; /* يمنع خروج النقاط عن الإطار */
+    line-height: 0; /* يزيل الفراغ أسفل الصورة */
+}
 
-        /* حاوية الخريطة الجديدة */
-        .map-container {
-            position: relative;
-            width: 95%;
-            max-width: 800px; /* الخريطة عرضية الآن لتناسب التصميم الغني */
-            margin: 20px auto;
-            background: #fdf5e6; /* لون يشبه الورق القديم ليناسب الصورة */
-            border-radius: 15px;
-            padding: 10px;
-            border: 5px double var(--accent-color);
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.morocco-map {
+    width: 100%;
+    height: auto;
+    display: block;
+}
 
-        .morocco-map {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 10px;
-        }
+        
 
         /* تصميم نقاط الكنوز (الأرقام) */
         .map-point {
