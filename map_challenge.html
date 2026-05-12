@@ -3,79 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خريطة الكنوز - ميدان المعرفة</title>
+    <title>خريطة الكنوز - ميدان المعرفة الشامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /<style>
-    /* حاوية الخريطة: جعلناها مرنة لتناسب أي حجم شاشة */
-    .map-container {
-        position: relative;
-        width: 100%;
-        max-width: 450px;
-        margin: 0 auto;
-        border: 3px solid var(--accent-color);
-        border-radius: 20px;
-        background: rgba(255,255,255,0.02);
-        padding: 5px;
-    }
+        /* شريط عرض الفرق */
+        #teams-header {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
 
-    .morocco-map {
-        width: 100%;
-        height: auto; /* لتجنب التشويه */
-        display: block;
-    }
+        .team-score-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+        }
 
-    /* تصميم نقاط الكنوز (الأرقام) */
-    .map-point {
-        position: absolute;
-        width: 28px;
-        height: 28px;
-        background: var(--accent-color);
-        color: var(--primary-color);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 0.8rem;
-        cursor: pointer;
-        box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-        transition: 0.3s;
-        border: 2px solid #fff;
-    }
+        .team-name { color: var(--white); font-weight: bold; }
+        .team-points { color: var(--accent-color); font-weight: 900; }
 
-    .map-point:hover { transform: scale(1.3); background: #fff; }
+        /* حاوية الخريطة الجديدة */
+        .map-container {
+            position: relative;
+            width: 95%;
+            max-width: 800px; /* الخريطة عرضية الآن لتناسب التصميم الغني */
+            margin: 20px auto;
+            background: #fdf5e6; /* لون يشبه الورق القديم ليناسب الصورة */
+            border-radius: 15px;
+            padding: 10px;
+            border: 5px double var(--accent-color);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-    /* ميزان المواقع: يمكنك تعديل النسبة المئوية (top و left) لتضع الرقم فوق المدينة بدقة */
-    .p1 { top: 5%;  left: 68%; } /* طنجة */
-    .p2 { top: 12%; left: 75%; } /* وجدة */
-    .p3 { top: 18%; left: 58%; } /* فاس */
-    .p4 { top: 20%; left: 45%; } /* الرباط */
-    .p5 { top: 35%; left: 48%; } /* مراكش */
-    .p6 { top: 45%; left: 35%; } /* أكادير */
-    .p7 { top: 60%; left: 28%; } /* العيون */
-    .p8 { top: 80%; left: 18%; } /* الداخلة */
-    .p9 { top: 92%; left: 12%; } /* الكويرة */
-</style>
+        .morocco-map {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
 
-<div class="map-container">
-    <!-- صورة الخريطة الكاملة -->
-    <img src="morocco_full.png" class="morocco-map" alt="خريطة المغرب كاملة">
-    
-    <!-- توزيع الأسئلة (يمكنك إضافة المزيد بنفس الطريقة) -->
-    <div class="map-point p1" onclick="showQuestion('tangier')">1</div>
-    <div class="map-point p2" onclick="showQuestion('oujda')">2</div>
-    <div class="map-point p3" onclick="showQuestion('fes')">3</div>
-    <div class="map-point p4" onclick="showQuestion('rabat')">4</div>
-    <div class="map-point p5" onclick="showQuestion('marrakesh')">5</div>
-    <div class="map-point p6" onclick="showQuestion('agadir')">6</div>
-    <div class="map-point p7" onclick="showQuestion('laayoune')">7</div>
-    <div class="map-point p8" onclick="showQuestion('dakhla')">8</div>
-    <div class="map-point p9" onclick="showQuestion('lagouira')">9</div>
-</div>
+        /* تصميم نقاط الكنوز (الأرقام) */
+        .map-point {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
 
+        .map-point:hover { transform: scale(1.3) rotate(10deg); background: #fff; color: var(--accent-color); }
+
+        /* توزيع النقاط الـ 12 على الخريطة الكاملة بدقة */
+        .p1 { top: 12%; left: 65%; } /* الشمال */
+        .p2 { top: 18%; left: 82%; } /* الشرق */
+        .p3 { top: 28%; left: 70%; } /* الوسط الشمالي */
+        .p4 { top: 22%; left: 55%; } /* الغرب */
+        .p5 { top: 42%; left: 58%; } /* جهة مراكش */
+        .p6 { top: 52%; left: 75%; } /* الجنوب الشرقي */
+        .p7 { top: 62%; left: 52%; } /* جهة سوس */
+        .p8 { top: 72%; left: 40%; } /* بداية الأقاليم الجنوبية */
+        .p9 { top: 78%; left: 32%; } /* العيون */
+        .p10 { top: 85%; left: 25%; } /* بوجدور */
+        .p11 { top: 90%; left: 18%; } /* الداخلة */
+        .p12 { top: 94%; left: 12%; } /* الكويرة */
+
+        /* نافذة السؤال */
+        .question-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .question-card {
+            background: #2c3e50;
+            padding: 40px;
+            border-radius: 30px;
+            border: 4px solid var(--accent-color);
+            width: 85%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 0 50px var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -83,28 +116,36 @@
 <div class="app-container">
     <div class="top-nav">
         <div class="nav-icon" onclick="location.href='modes.html'"><i class="fas fa-arrow-right"></i></div>
-        <h2 style="color: var(--accent-color);">خريطة الكنوز</h2>
+        <h2 style="color: var(--accent-color);">خريطة الكنوز الوطنية</h2>
         <div class="nav-icon" onclick="location.href='index.html'"><i class="fas fa-home"></i></div>
     </div>
 
-    <!-- منطقة عرض أسماء الفرق ونقاطهم -->
     <div id="teams-header"></div>
 
     <div class="map-container">
-        <img src="morocco_full.png" class="morocco-map" alt="خريطة المملكة المغربية كاملة">
+        <!-- استخدام الصورة التي تعبر عن هويتنا الوطنية كاملة -->
+        <img src="watermarked_img_16964597577004423827.png" class="morocco-map" alt="خريطة المغرب كاملة">
         
-        <div class="map-point point-tangier" onclick="showQuestion('tangier')">1</div>
-        <div class="map-point point-marrakesh" onclick="showQuestion('marrakesh')">2</div>
-        <div class="map-point point-laayoune" onclick="showQuestion('laayoune')">3</div>
-        <div class="map-point point-dakhla" onclick="showQuestion('dakhla')">4</div>
-        <div class="map-point point-lagouira" onclick="showQuestion('lagouira')">5</div>
+        <!-- توزيع الكنوز الـ 12 -->
+        <div class="map-point p1" onclick="showQuestion(1)">1</div>
+        <div class="map-point p2" onclick="showQuestion(2)">2</div>
+        <div class="map-point p3" onclick="showQuestion(3)">3</div>
+        <div class="map-point p4" onclick="showQuestion(4)">4</div>
+        <div class="map-point p5" onclick="showQuestion(5)">5</div>
+        <div class="map-point p6" onclick="showQuestion(6)">6</div>
+        <div class="map-point p7" onclick="showQuestion(7)">7</div>
+        <div class="map-point p8" onclick="showQuestion(8)">8</div>
+        <div class="map-point p9" onclick="showQuestion(9)">9</div>
+        <div class="map-point p10" onclick="showQuestion(10)">10</div>
+        <div class="map-point p11" onclick="showQuestion(11)">11</div>
+        <div class="map-point p12" onclick="showQuestion(12)">12</div>
     </div>
 
     <div id="qOverlay" class="question-overlay">
         <div class="question-card">
-            <h3 id="qTitle" style="color: var(--accent-color); margin-bottom: 15px;"></h3>
-            <div id="qContent" style="color: white; font-size: 1.2rem; margin-bottom: 20px;"></div>
-            <button onclick="closeQuestion()" class="start-action" style="display:block; width:100%">إغلاق</button>
+            <h3 id="qTitle" style="color: var(--accent-color); margin-bottom: 20px; font-size: 1.8rem;"></h3>
+            <div id="qContent" style="color: white; font-size: 1.4rem; margin-bottom: 30px; line-height: 1.6;"></div>
+            <button onclick="closeQuestion()" class="start-action" style="width:100%">تأكيد الإجابة</button>
         </div>
     </div>
 
@@ -114,11 +155,9 @@
 </div>
 
 <script>
-    // عند تحميل الصفحة: جلب الفرق وعرضها
     document.addEventListener('DOMContentLoaded', () => {
         const teams = JSON.parse(localStorage.getItem('midan_teams'));
         const header = document.getElementById('teams-header');
-
         if (teams && header) {
             teams.forEach(team => {
                 header.innerHTML += `
@@ -130,21 +169,15 @@
         }
     });
 
-    function showQuestion(city) {
+    function showQuestion(num) {
         const overlay = document.getElementById('qOverlay');
         const content = document.getElementById('qContent');
         const title = document.getElementById('qTitle');
 
-        if(city === 'marrakesh') {
-            title.innerText = "كنز مراكش";
-            content.innerText = "من هو مؤسس مدينة مراكش؟";
-        } else if(city === 'tangier') {
-            title.innerText = "كنز طنجة";
-            content.innerText = "ما هو اللقب الذي يطلق على مدينة طنجة؟";
-        } else {
-            title.innerText = "تحدي جديد";
-            content.innerText = "السؤال قادم من بنك الأسئلة...";
-        }
+        title.innerText = `الكنز رقم ${num}`;
+        
+        // هنا سنربط الأسئلة لاحقاً بملف JSON الـ 220 سؤالاً
+        content.innerText = "السؤال قادم من بنك الأسئلة الخاص بالأستاذ محمد أسرار...";
         
         overlay.style.display = 'flex';
     }
