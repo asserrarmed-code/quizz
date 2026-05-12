@@ -8,95 +8,74 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* شريط عرض الفرق في الأعلى */
-        #teams-header {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
+        /<style>
+    /* حاوية الخريطة: جعلناها مرنة لتناسب أي حجم شاشة */
+    .map-container {
+        position: relative;
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        border: 3px solid var(--accent-color);
+        border-radius: 20px;
+        background: rgba(255,255,255,0.02);
+        padding: 5px;
+    }
 
-        .team-score-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--accent-color);
-            padding: 8px 15px;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 100px;
-        }
+    .morocco-map {
+        width: 100%;
+        height: auto; /* لتجنب التشويه */
+        display: block;
+    }
 
-        .team-name { color: var(--white); font-weight: bold; }
-        .team-points { color: var(--accent-color); font-weight: 900; }
+    /* تصميم نقاط الكنوز (الأرقام) */
+    .map-point {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        background: var(--accent-color);
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 0.8rem;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+        transition: 0.3s;
+        border: 2px solid #fff;
+    }
 
-        /* حاوية الخريطة التي أعددتها */
-        .map-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 10px;
-            border: 2px solid var(--accent-color);
-            display: flex;
-            justify-content: center;
-        }
+    .map-point:hover { transform: scale(1.3); background: #fff; }
 
-        .morocco-map {
-            width: auto;
-            height: 600px;
-            filter: drop-shadow(0 0 10px var(--accent-color));
-        }
+    /* ميزان المواقع: يمكنك تعديل النسبة المئوية (top و left) لتضع الرقم فوق المدينة بدقة */
+    .p1 { top: 5%;  left: 68%; } /* طنجة */
+    .p2 { top: 12%; left: 75%; } /* وجدة */
+    .p3 { top: 18%; left: 58%; } /* فاس */
+    .p4 { top: 20%; left: 45%; } /* الرباط */
+    .p5 { top: 35%; left: 48%; } /* مراكش */
+    .p6 { top: 45%; left: 35%; } /* أكادير */
+    .p7 { top: 60%; left: 28%; } /* العيون */
+    .p8 { top: 80%; left: 18%; } /* الداخلة */
+    .p9 { top: 92%; left: 12%; } /* الكويرة */
+</style>
 
-        .map-point {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--primary-color);
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
+<div class="map-container">
+    <!-- صورة الخريطة الكاملة -->
+    <img src="morocco_full.png" class="morocco-map" alt="خريطة المغرب كاملة">
+    
+    <!-- توزيع الأسئلة (يمكنك إضافة المزيد بنفس الطريقة) -->
+    <div class="map-point p1" onclick="showQuestion('tangier')">1</div>
+    <div class="map-point p2" onclick="showQuestion('oujda')">2</div>
+    <div class="map-point p3" onclick="showQuestion('fes')">3</div>
+    <div class="map-point p4" onclick="showQuestion('rabat')">4</div>
+    <div class="map-point p5" onclick="showQuestion('marrakesh')">5</div>
+    <div class="map-point p6" onclick="showQuestion('agadir')">6</div>
+    <div class="map-point p7" onclick="showQuestion('laayoune')">7</div>
+    <div class="map-point p8" onclick="showQuestion('dakhla')">8</div>
+    <div class="map-point p9" onclick="showQuestion('lagouira')">9</div>
+</div>
 
-        .map-point:hover { transform: scale(1.2); background: #fff; }
-
-        /* توزيع النقاط */
-        .point-tangier { top: 5%; left: 65%; }
-        .point-marrakesh { top: 35%; left: 50%; }
-        .point-laayoune { top: 65%; left: 35%; }
-        .point-dakhla { top: 80%; left: 25%; }
-        .point-lagouira { top: 92%; left: 20%; }
-
-        /* نافذة السؤال */
-        .question-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .question-card {
-            background: var(--bg-gradient);
-            padding: 30px;
-            border-radius: 25px;
-            border: 3px solid var(--accent-color);
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
