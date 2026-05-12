@@ -1,0 +1,172 @@
+:root {
+    --primary-color: #1a3a5f;
+    --accent-color: #d4af37;
+    --bg-gradient: radial-gradient(circle, #2c5384 0%, #1a3a5f 100%);
+    --white: #ffffff;
+    --text-faded: rgba(255, 255, 255, 0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #0f2033;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.app-container {
+    background: var(--bg-gradient);
+    width: 100%;
+    max-width: 750px;
+    min-height: 85vh;
+    border-radius: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    border: 5px solid var(--accent-color);
+}
+
+.top-nav {
+    position: absolute;
+    top: 25px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.nav-icon {
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--accent-color);
+    transition: 0.3s;
+}
+
+.nav-icon:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.center-logo-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.logo-frame {
+    width: clamp(180px, 35vw, 250px);
+    height: clamp(180px, 35vw, 250px);
+    border-radius: 50%;
+    border: 6px double var(--accent-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.logo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+h1 {
+    color: var(--accent-color);
+    font-weight: 900;
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.interaction-box {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.instruction-text {
+    color: white;
+    margin-bottom: 12px;
+}
+
+.select-style {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid var(--accent-color);
+    background: var(--primary-color);
+    color: var(--accent-color);
+    font-family: 'Cairo';
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+#teams-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.team-input {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    text-align: center;
+    font-family: 'Cairo';
+    font-weight: bold;
+    background: white;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.start-action {
+    margin-top: 25px;
+    padding: 15px 50px;
+    border-radius: 40px;
+    border: none;
+    background: #27ae60;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    transition: 0.3s transform;
+}
+
+.start-action:active {
+    transform: scale(0.95);
+}
+
+.master-signature {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: var(--text-faded);
+    text-align: center;
+}
