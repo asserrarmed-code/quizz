@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ميدان المعرفة الشامل</title>
+    <!-- استدعاء الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- استدعاء ملف CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <div class="top-nav">
+        <div class="nav-icon" title="الدليل"><i class="fas fa-book"></i></div>
+        <div class="nav-icon" title="لوحة التحكم"><i class="fas fa-cog"></i></div>
+    </div>
+
+    <div class="center-logo-area">
+        <div class="logo-frame">
+            <img src="logocup.png" alt="لوغو المسابقة">
+        </div>
+        <h1>ميدان المعرفة الشامل</h1>
+    </div>
+
+    <div class="interaction-box">
+        <p class="instruction-text">اختر عدد الفرق المشاركة:</p>
+        
+        <select class="select-style" onchange="setupTeams(this.value)">
+            <option value="" disabled selected>-- اختر من القائمة --</option>
+            <option value="2">فريقان (2)</option>
+            <option value="3">ثلاثة فرق (3)</option>
+            <option value="4">أربعة فرق (4)</option>
+            <option value="5">خمسة فرق (5)</option>
+            <option value="6">ستة فرق (6)</option>
+        </select>
+
+        <div id="teams-display"></div>
+        <button id="goBtn" class="start-action">دخول التحدي <i class="fas fa-rocket"></i></button>
+    </div>
+
+    <div class="master-signature">
+        إعداد وتصميم الأستاذ محمد أسرار <br>
+        مدرسة ميمونة أم المؤمنين - مديرية مراكش
+    </div>
+</div>
+
+<!-- استدعاء ملف Javascript -->
+<script src="script.js"></script>
+</body>
+</html>
