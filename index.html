@@ -75,26 +75,29 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            width: 100%;
         }
 
+        /* تعديل الإطار ليكون مناسباً للوغو الدائري */
         .logo-frame {
-            width: clamp(140px, 25vw, 200px);
-            height: clamp(140px, 25vw, 200px);
+            width: clamp(180px, 35vw, 250px); /* تكبير الحجم قليلاً */
+            height: clamp(180px, 35vw, 250px);
             border-radius: 50%;
-            border: 4px double var(--accent-color);
+            border: 6px double var(--accent-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            background: #fff; /* خلفية بيضاء لتظهر تفاصيل اللوغو بوضوح */
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
             margin-bottom: 15px;
-            overflow: hidden; /* لضمان بقاء الصورة داخل الإطار الدائري */
+            overflow: hidden;
+            position: relative;
         }
 
         .logo-frame img {
-            width: 80%; /* يمكنك تعديل النسبة لتناسب حجم شعارك */
-            height: auto;
-            object-fit: contain;
+            width: 100%; /* جعل الصورة تملأ الإطار بالكامل */
+            height: 100%;
+            object-fit: cover; /* لضمان ملء الدائرة بالكامل دون تشويه */
         }
 
         h1 {
@@ -102,6 +105,7 @@
             font-weight: 900;
             font-size: clamp(1.8rem, 6vw, 2.8rem);
             text-align: center;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
 
         .interaction-box {
@@ -175,8 +179,8 @@
 
     <div class="center-logo-area">
         <div class="logo-frame">
-            <!-- تم وضع مسار الصورة logo.png هنا -->
-            <img src="logocup.png" alt="لوغو المسابقة">
+            <!-- تم ضبط الصورة لتملأ الإطار تماماً -->
+            <img src="logo.png" alt="لوغو المسابقة">
         </div>
         <h1>ميدان المعرفة الشامل</h1>
     </div>
