@@ -1,116 +1,187 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خريطة الكنوز - ميدان المعرفة الشامل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --accent-color: #ffcc00; }
-        body { background-color: #0d1b2a; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خريطة الكنوز - ميدان المعرفة الشامل</title>
 
-        /* الحاوية المرنة للحاسوب والهاتف */
-        .map-container {
-            position: relative;
-            width: 95%;
-            max-width: 450px; /* يحافظ على تناسقها في الحاسوب */
-            aspect-ratio: 9 / 16; /* يثبت نسبة أبعاد الصورة */
-            margin: 20px auto;
-            border: 4px solid var(--accent-color);
-            border-radius: 25px;
-            background: #fdf5e6;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
 
-        .morocco-map {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-        }
+<style>
+:root{
+    --accent-color:#ffcc00;
+}
 
-        /* تنسيق النقاط - مرن بالنسبة المئوية */
-        .map-point {
-            position: absolute;
-            width: 7%; /* حجم النقطة يتغير آلياً مع حجم الخريطة */
-            aspect-ratio: 1/1;
-            background: var(--accent-color);
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900;
-            font-size: clamp(10px, 3vw, 16px); /* حجم خط مرن */
-            border: 2px solid #fff;
-            cursor: pointer;
-            z-index: 10;
-            transform: translate(-50%, -50%); /* يضمن تمركز النقطة فوق الزخرفة */
-            transition: transform 0.2s;
-        }
+body{
+    background:
+        radial-gradient(circle at top,#16324f,#0d1b2a 70%);
+    font-family:'Cairo',sans-serif;
+    margin:0;
+    padding:0;
+    overflow-x:hidden;
+}
 
-        .map-point:hover { transform: translate(-50%, -50%) scale(1.2); }
+/* الحاوية */
+.map-container{
+    position:relative;
+    width:95%;
+    max-width:450px;
+    aspect-ratio:9/16;
+    margin:20px auto;
+    border:4px solid var(--accent-color);
+    border-radius:25px;
+    background:#fdf5e6;
+    overflow:hidden;
 
-        /* الإحداثيات النهائية الدقيقة (بناءً على الصورة 1000046152.jpg) */
-        .p1 { top: 22.5%; left: 68.5%; }  
-        .p2 { top: 28.5%; left: 81.5%; }  
-        .p3 { top: 31.8%; left: 71.5%; }  
-        .p4 { top: 30.5%; left: 58.5%; }  
-        .p5 { top: 41.5%; left: 63.5%; }  
-        .p6 { top: 46.8%; left: 76.5%; }  
-        .p7 { top: 51.5%; left: 54.5%; }  
-        .p8 { top: 59.5%; left: 46.5%; }  
-        .p9 { top: 64.5%; left: 40.5%; }  
-        .p10 { top: 68.8%; left: 36.5%; } 
-        .p11 { top: 72.8%; left: 32.5%; } 
-        .p12 { top: 75.8%; left: 28.5%; } 
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.6),
+        0 0 25px rgba(255,204,0,0.4);
+}
 
-        /* أنيميشن الشعاع الطائر */
-        .flyer-dot {
-            position: absolute;
-            width: 6%;
-            aspect-ratio: 1/1;
-            background: gold;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #fff;
-            z-index: 100;
-            display: none;
-            pointer-events: none;
-            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translate(-50%, -50%);
-        }
+/* الخريطة */
+.morocco-map{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
 
-        .master-signature {
-            text-align: center;
-            color: white;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-        }
-    </style>
+/* النقاط */
+.map-point{
+    position:absolute;
+    width:7%;
+    aspect-ratio:1/1;
+
+    background:radial-gradient(circle,#ffe066,#ffb700);
+
+    color:#000;
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:900;
+    font-size:clamp(10px,3vw,16px);
+
+    border:2px solid #fff;
+
+    cursor:pointer;
+    z-index:10;
+
+    transform:translate(-50%,-50%);
+    transition:0.25s;
+
+    box-shadow:
+        0 0 10px gold,
+        0 0 25px rgba(255,215,0,0.8);
+}
+
+/* تأثير النبض */
+.map-point::before{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:2px solid rgba(255,215,0,0.5);
+
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(0.8);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(1.7);
+        opacity:0;
+    }
+}
+
+.map-point:hover{
+    transform:translate(-50%,-50%) scale(1.2);
+}
+
+/* نقاط الساحل */
+.p1  { top:16%; left:63%; }
+.p2  { top:22%; left:60%; }
+.p3  { top:28%; left:57%; }
+.p4  { top:34%; left:54%; }
+.p5  { top:40%; left:50%; }
+.p6  { top:46%; left:47%; }
+.p7  { top:52%; left:44%; }
+.p8  { top:58%; left:41%; }
+.p9  { top:64%; left:38%; }
+.p10 { top:71%; left:35%; }
+.p11 { top:78%; left:31%; }
+.p12 { top:85%; left:27%; }
+
+/* الشعاع الطائر */
+.flyer-dot{
+    position:absolute;
+
+    width:6%;
+    aspect-ratio:1/1;
+
+    border-radius:50%;
+
+    background:radial-gradient(circle,#fff,#ffd700);
+
+    box-shadow:
+        0 0 20px white,
+        0 0 40px gold,
+        0 0 60px orange;
+
+    z-index:100;
+
+    display:none;
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    transition:
+        top 0.8s cubic-bezier(.175,.885,.32,1.275),
+        left 0.8s cubic-bezier(.175,.885,.32,1.275);
+}
+
+/* التوقيع */
+.master-signature{
+    text-align:center;
+    color:white;
+    font-size:0.85rem;
+    margin-bottom:20px;
+    text-shadow:0 0 8px rgba(255,255,255,0.4);
+}
+</style>
 </head>
+
 <body>
 
 <div class="map-container">
+
     <!-- صورة الخريطة -->
     <img src="map.png" class="morocco-map">
-    
-    <!-- عنصر الشعاع الطائر -->
+
+    <!-- الشعاع -->
     <div id="flyer" class="flyer-dot"></div>
-    
-    <!-- نقاط الكنوز -->
-    <div class="map-point p1" onclick="showQuestion(1, this)">1</div>
-    <div class="map-point p2" onclick="showQuestion(2, this)">2</div>
-    <div class="map-point p3" onclick="showQuestion(3, this)">3</div>
-    <div class="map-point p4" onclick="showQuestion(4, this)">4</div>
-    <div class="map-point p5" onclick="showQuestion(5, this)">5</div>
-    <div class="map-point p6" onclick="showQuestion(6, this)">6</div>
-    <div class="map-point p7" onclick="showQuestion(7, this)">7</div>
-    <div class="map-point p8" onclick="showQuestion(8, this)">8</div>
-    <div class="map-point p9" onclick="showQuestion(9, this)">9</div>
-    <div class="map-point p10" onclick="showQuestion(10, this)">10</div>
-    <div class="map-point p11" onclick="showQuestion(11, this)">11</div>
-    <div class="map-point p12" onclick="showQuestion(12, this)">12</div>
+
+    <!-- النقاط -->
+    <div class="map-point p1" onclick="showQuestion(1,this)">1</div>
+    <div class="map-point p2" onclick="showQuestion(2,this)">2</div>
+    <div class="map-point p3" onclick="showQuestion(3,this)">3</div>
+    <div class="map-point p4" onclick="showQuestion(4,this)">4</div>
+    <div class="map-point p5" onclick="showQuestion(5,this)">5</div>
+    <div class="map-point p6" onclick="showQuestion(6,this)">6</div>
+    <div class="map-point p7" onclick="showQuestion(7,this)">7</div>
+    <div class="map-point p8" onclick="showQuestion(8,this)">8</div>
+    <div class="map-point p9" onclick="showQuestion(9,this)">9</div>
+    <div class="map-point p10" onclick="showQuestion(10,this)">10</div>
+    <div class="map-point p11" onclick="showQuestion(11,this)">11</div>
+    <div class="map-point p12" onclick="showQuestion(12,this)">12</div>
+
 </div>
 
 <div class="master-signature">
@@ -118,37 +189,51 @@
 </div>
 
 <script>
-    let lastPoint = null;
+let lastPoint = null;
 
-    function showQuestion(num, element) {
-        const flyer = document.getElementById('flyer');
-        
-        // جلب الإحداثيات بالنسبة المئوية
-        const targetTop = element.style.top || window.getComputedStyle(element).top;
-        const targetLeft = element.style.left || window.getComputedStyle(element).left;
+function showQuestion(num, element){
 
-        if (lastPoint) {
-            // إعداد نقطة الانطلاق
-            flyer.style.display = 'block';
-            flyer.style.top = lastPoint.style.top || window.getComputedStyle(lastPoint).top;
-            flyer.style.left = lastPoint.style.left || window.getComputedStyle(lastPoint).left;
-            
-            // بدء الطيران
-            setTimeout(() => {
-                flyer.style.top = targetTop;
-                flyer.style.left = targetLeft;
-            }, 50);
-        }
+    const flyer = document.getElementById('flyer');
 
-        lastPoint = element;
+    const style = window.getComputedStyle(element);
 
-        // فتح السؤال بعد الوصول
-        setTimeout(() => {
-            flyer.style.display = 'none';
-            console.log("فتح كنز رقم: " + num);
-            // أضف هنا الكود الذي يظهر نافذة السؤال
-        }, 800);
+    const targetTop = style.top;
+    const targetLeft = style.left;
+
+    if(lastPoint){
+
+        const lastStyle = window.getComputedStyle(lastPoint);
+
+        flyer.style.display = 'block';
+
+        flyer.style.top = lastStyle.top;
+        flyer.style.left = lastStyle.left;
+
+        setTimeout(()=>{
+
+            flyer.style.top = targetTop;
+            flyer.style.left = targetLeft;
+
+        },50);
+
+    }else{
+
+        flyer.style.display = 'block';
+
+        flyer.style.top = targetTop;
+        flyer.style.left = targetLeft;
     }
+
+    lastPoint = element;
+
+    setTimeout(()=>{
+
+        flyer.style.display = 'none';
+
+        alert("فتح الكنز رقم " + num);
+
+    },850);
+}
 </script>
 
 </body>
